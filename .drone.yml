@@ -25,7 +25,7 @@ steps:
   settings:
     fail_on_detection: true
     image_name: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
-    tolarates: medium
+    tolarate: low
   when:
     event:
     - push
