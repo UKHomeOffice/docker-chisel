@@ -12,9 +12,10 @@ steps:
   pull: if-not-exists
   image: alpine:3.20.3
   commands:
-  - export CHISEL_VERSION=$(grep "^ENV CHISEL_VERSION" Dockerfile | awk -F '=' '{print $2}' | tr -d ' ')
+  - grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile
+  - export CHISEL_VERSION=$(grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile | awk -F '=' '{print $2}' | tr -d ' ')
   - echo "CHISEL_VERSION=${CHISEL_VERSION}" > .chisel_version
-  - cat .chisel_version 
+  - cat .chisel_version
 
 - name: build_docker_image
   pull: if-not-exists
