@@ -14,6 +14,7 @@ steps:
   commands:
   - grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile > chisel_version_raw.txt
   - export CHISEL_VERSION=$(cat chisel_version_raw.txt | cut -d '=' -f2 | tr -d '[:space:]')
+  - echo $CHISEL_VERSION
   - echo "CHISEL_VERSION=${CHISEL_VERSION}" > .chisel_version
   - cat .chisel_version
 
