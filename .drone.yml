@@ -14,9 +14,8 @@ steps:
   commands:
   - grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile > chisel_version_raw.txt
   - export CHISEL_VERSION=$(cat chisel_version_raw.txt | cut -d '=' -f2 | tr -d '[:space:]')
-  - echo $CHISEL_VERSION
-  - echo "CHISEL_VERSION=${CHISEL_VERSION}" > .chisel_version
-  - cat .chisel_version
+  - echo ${CHISEL_VERSION}
+
 
 - name: build_docker_image
   pull: if-not-exists
@@ -25,7 +24,6 @@ steps:
     # wait for docker service to be up before running docker build
   - /usr/local/bin/wait
   - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
-  - export CHISEL_VERSION=$(cat .chisel_version | cut -d '=' -f2)
   - docker build -t quay.io/ukhomeofficedigital/chisel:$${DRONE_COMMIT_SHA} .
   when:
     event:
