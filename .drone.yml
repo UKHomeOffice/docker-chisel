@@ -12,6 +12,8 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
+    # wait for docker service to be up before running docker build
+  - /usr/local/bin/wait
   - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
   - docker build -t quay.io/ukhomeofficedigital/chisel:$${DRONE_COMMIT_SHA} .
   when:
