@@ -19,13 +19,14 @@ steps:
     - push
     - tag
 
-- name: scan
+- name: scan_image_with_trivy
   pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-  settings:
-    fail_on_detection: true
-    image_name: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
-    tolarate: low
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/trivy/client:latest
+  environment:
+    IMAGE_NAME: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
+    TRIVY_SKIP_FILES: /etc/keys/key
+  commands:
+    - trivy image quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA} --exit-code 1
   when:
     event:
     - push
@@ -65,9 +66,3 @@ steps:
 services:
 - name: docker
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-
-- name: anchore-submission-server
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-  pull: always
-  commands:
-    - /run.sh server
