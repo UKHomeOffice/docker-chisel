@@ -13,7 +13,7 @@ steps:
   image: alpine:3.20.3
   commands:
   - grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile
-  - export CHISEL_VERSION=$(grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile | awk -F '=' '{print $2}' | tr -d ' ')
+  - export CHISEL_VERSION=$(grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile | cut -d '=' -f2 | tr -d '[:space:]')
   - echo "CHISEL_VERSION=${CHISEL_VERSION}" > .chisel_version
   - cat .chisel_version
 
