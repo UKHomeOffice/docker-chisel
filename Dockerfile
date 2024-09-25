@@ -9,7 +9,7 @@ ENV CGO_ENABLED=0
 
 RUN go install -ldflags "-X github.com/jpillora/chisel/share.BuildVersion=${CHISEL_VERSION}" github.com/jpillora/chisel@${CHISEL_VERSION}
 
-FROM alpine:3.20.3
+FROM alpine:3.20
 COPY --from=build /go/bin/chisel /chisel
 
 USER 1000
