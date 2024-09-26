@@ -18,6 +18,8 @@ steps:
       fi
       export CHISEL_VERSION=$(grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile | cut -d "=" -f2 | tr -d '[:space:]')
       echo "CHISEL_VERSION is $CHISEL_VERSION"  # Debugging to confirm extraction
+      echo $CHISEL_VERSION > .chisel_version
+      cat .chisel_version
 
 
 - name: build_docker_image
