@@ -12,11 +12,12 @@ steps:
   pull: if-not-exists
   image: alpine:3.20.3
   commands:
-  - grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile > chisel_version_raw.txt
-  - cat chisel_version_raw.txt
-  - export CHISEL_VERSION=$(cat chisel_version_raw.txt | cut -d '=' -f2 | tr -d '[:space:]')
-  - echo "${CHISEL_VERSION}"
-  - cat chisel_version_raw.txt
+  - |
+      if [ ! -f Dockerfile ]; then
+        echo "Error: Dockerfile not found!" && exit 1
+      fi
+      export CHISEL_VERSION=$(grep -E "^ENV[[:space:]]+CHISEL_VERSION" Dockerfile | cut -d "=" -f2 | tr -d '[:space:]')
+      echo "CHISEL_VERSION is $CHISEL_VERSION"  # Debugging to confirm extraction
 
 
 - name: build_docker_image
