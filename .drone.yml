@@ -19,17 +19,17 @@ steps:
     - push
     - tag
 
-- name: scan
-  pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-  settings:
-    fail_on_detection: true
-    image_name: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
-    tolarate: low
-  when:
-    event:
-    - push
-    - tag
+# - name: scan
+#   pull: if-not-exists
+#   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
+#   settings:
+#     fail_on_detection: true
+#     image_name: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
+#     tolarate: low
+#   when:
+#     event:
+#     - push
+#     - tag
 
 - name: image_to_quay
   pull: if-not-exists
@@ -66,8 +66,8 @@ services:
 - name: docker
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
 
-- name: anchore-submission-server
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-  pull: always
-  commands:
-    - /run.sh server
+# - name: anchore-submission-server
+#   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
+#   pull: always
+#   commands:
+#     - /run.sh server
