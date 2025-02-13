@@ -4,7 +4,7 @@ WORKDIR /go/src/github.com/jpillora
 RUN apk update
 RUN apk add git
 
-ENV CHISEL_VERSION=v1.8.1
+ENV CHISEL_VERSION=v1.10.1
 ENV CGO_ENABLED 0
 
 RUN go install -ldflags "-X github.com/jpillora/chisel/share.BuildVersion=${CHISEL_VERSION}" github.com/jpillora/chisel@${CHISEL_VERSION}
