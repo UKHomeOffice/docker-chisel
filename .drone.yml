@@ -12,24 +12,27 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done
+  - /usr/local/bin/wait
   - docker build -t quay.io/ukhomeofficedigital/chisel:$${DRONE_COMMIT_SHA} .
   when:
     event:
     - push
     - tag
 
-# - name: scan
-#   pull: if-not-exists
-#   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-#   settings:
-#     fail_on_detection: true
-#     image_name: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
-#     tolarate: low
-#   when:
-#     event:
-#     - push
-#     - tag
+- name: scan-image
+  pull: always
+  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/trivy/client:latest
+  resources:
+    limits:
+      cpu: 1000
+      memory: 1024Mi
+  environment:
+    IMAGE_NAME: quay.io/ukhomeofficedigital/chisel:${DRONE_COMMIT_SHA}
+    IGNORE_UNFIXED: "true"
+  when:
+    event:
+    - pull_request
+    - push
 
 - name: image_to_quay
   pull: if-not-exists
@@ -65,9 +68,3 @@ steps:
 services:
 - name: docker
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
-
-# - name: anchore-submission-server
-#   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/anchore-submission:latest
-#   pull: always
-#   commands:
-#     - /run.sh server
