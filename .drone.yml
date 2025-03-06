@@ -18,6 +18,7 @@ steps:
     event:
     - push
     - tag
+    - pull_request
 
 - name: scan-image
   pull: always
