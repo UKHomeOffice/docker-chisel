@@ -15,7 +15,8 @@ RUN go get -u
 RUN go mod tidy
 RUN go build
 
-FROM alpine:3.21.2
+FROM alpine:3.21.3
+RUN apk update && apk upgrade
 COPY --from=build /go/src/chisel/chisel /chisel
 
 USER 1000
