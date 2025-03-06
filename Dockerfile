@@ -1,5 +1,5 @@
 FROM golang:1.24-alpine3.20 AS build
-WORKDIR /go/src/github.com/jpillora
+WORKDIR /go/src/
 
 RUN apk update
 RUN apk add git
@@ -7,10 +7,16 @@ RUN apk add git
 ENV CHISEL_VERSION=v1.10.1
 ENV CGO_ENABLED 0
 
-RUN go install -ldflags "-X github.com/jpillora/chisel/share.BuildVersion=${CHISEL_VERSION}" github.com/jpillora/chisel@${CHISEL_VERSION}
+RUN git clone -b $CHISEL_VERSION https://github.com/jpillora/chisel
+
+WORKDIR /go/src/chisel
+
+RUN go get -u
+RUN go mod tidy
+RUN go build
 
 FROM alpine:3.21.2
-COPY --from=build /go/bin/chisel /chisel
+COPY --from=build /go/src/chisel/chisel /chisel
 
 USER 1000
 
