@@ -8,7 +8,7 @@ VERSION ?= latest
 default: build
 
 build:
-	@echo "--> Builing the docker image: ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION}"
+	@echo "--> Building the docker image: ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION}"
 	docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} .
 
 push:
