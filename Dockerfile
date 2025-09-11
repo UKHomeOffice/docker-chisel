@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine3.20 AS build
+FROM golang:1.24-alpine3.21 AS build
 WORKDIR /go/src/
 
 RUN apk update
@@ -15,7 +15,7 @@ RUN go get -u
 RUN go mod tidy
 RUN go build
 
-FROM alpine:3.21.3
+FROM alpine:3.21
 RUN apk update && apk upgrade
 COPY --from=build /go/src/chisel/chisel /chisel
 
