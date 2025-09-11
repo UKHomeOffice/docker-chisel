@@ -4,7 +4,7 @@ WORKDIR /go/src/
 RUN apk update
 RUN apk add git
 
-ENV CHISEL_VERSION=v1.10.1
+ENV CHISEL_VERSION=v1.11.0
 ENV CGO_ENABLED 0
 
 RUN git clone -b $CHISEL_VERSION https://github.com/jpillora/chisel
