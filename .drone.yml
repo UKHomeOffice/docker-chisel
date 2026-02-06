@@ -40,9 +40,7 @@ steps:
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   commands:
   - docker login -u="ukhomeofficedigital+chisel" -p=$${DOCKER_PASSWORD} quay.io
-  - docker tag quay.io/ukhomeofficedigital/chisel:$${DRONE_COMMIT_SHA} quay.io/ukhomeofficedigital/chisel:latest
   - docker push quay.io/ukhomeofficedigital/chisel:$${DRONE_COMMIT_SHA}
-  - docker push quay.io/ukhomeofficedigital/chisel:latest
   environment:
     DOCKER_PASSWORD:
       from_secret: docker_password
