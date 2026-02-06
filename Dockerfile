@@ -1,4 +1,4 @@
-FROM golang:1.25.6-alpine3.23 AS build
+FROM golang:1.25.7-alpine3.23 AS build
 WORKDIR /go/src/
 
 RUN apk --no-cache add git
